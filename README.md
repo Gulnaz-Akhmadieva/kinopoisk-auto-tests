@@ -20,6 +20,7 @@ pytest -m api    # только API-тесты
 pytest -m ui     # только UI-тесты
 pytest           # все тесты
 
+
 ## Allure-отчёт
 
 1. Установите Allure: https://allurereport.org/docs/install/
