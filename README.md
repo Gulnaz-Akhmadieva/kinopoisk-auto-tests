@@ -1,2 +1,27 @@
 # kinopoisk-auto-tests
-Дипломный проект SkyPro 
+# Дипломная работа: Автотесты для Кинопоиска
+
+## Описание
+Проект представляет собой сервис онлайн-кинотеатра “Кинопоиск“, предоставляющий доступ к обширной базе данных кино- и ТВ-контента. Проект содержит автоматизированные тесты для API и UI сайта.
+
+## Установка
+```bash
+git clone https://github.com/Gulnaz-Akhmadieva/kinopoisk-auto-tests.git
+cd kinopoisk-auto-tests
+pip install -r requirements.txt
+
+## Примечания
+- Тест `test_search_empty` требует ручного прохождения капчи.
+- API-ключ для Кинопоиска нужно получить на [kinopoisk.dev](https://kinopoisk.dev) и добавить в `config.py`.
+- Для UI-тестов используется Chrome, для API — библиотека `requests`.
+- Все тесты стабильны и могут запускаться многократно.
+
+pytest -m api    # только API-тесты
+pytest -m ui     # только UI-тесты
+pytest           # все тесты
+
+## Allure-отчёт
+
+1. Установите Allure: https://allurereport.org/docs/install/
+2. Запустите тесты: `pytest tests/ --alluredir=./allure-results`
+3. Сформируйте и откройте отчёт: `allure serve ./allure-results`
