@@ -45,7 +45,8 @@ def test_search_by_year(driver):
 
     with allure.step("Дождаться загрузки страницы фильма"):
         WebDriverWait(driver, 20).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "[data-tid='75209b22']"))
+            EC.presence_of_element_located(
+                (By.CSS_SELECTOR, "[data-tid='75209b22']"))
         )
 
 
@@ -78,21 +79,23 @@ def test_search_empty(driver):
 
     """
     Негативный тест: поиск с пустым запросом.
-    При клике на лупу с пустой строкой открывается страница с надписью "Случайный фильм".
+    При клике на лупу с пустой строкой открывается
+    страница с надписью "Случайный фильм".
     ВНИМАНИЕ: тест требует ручного прохождения капчи.
     При успешном прохождении капчи тест проходит автоматически.
     """
     with allure.step("Открыть главную страницу и нажать на лупу"):
-        try:
-            driver.get("https://www.kinopoisk.ru")
-            search_button = driver.find_element(By.CSS_SELECTOR, ".search-form-submit-button__icon")
-            search_button.click()
+        driver.get("https://www.kinopoisk.ru")
+        search_button = driver.find_element(
+            By.CSS_SELECTOR, ".search-form-submit-button__icon"
+        )
+        search_button.click()
 
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Случайный фильм')]"))
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.CSS_SELECTOR, ".randomMovieButton")
             )
-        finally:
-            driver.quit()
+        )
 
 
 @allure.title("Поиск с недопустимыми символами")
@@ -115,7 +118,10 @@ def test_search_invalid_chars(driver):
 
     with allure.step("Проверить появление сообщения об ошибке"):
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//h2[@class='textorangebig' and contains(text(), 'К сожалению, по вашему запросу ничего не найдено')]"))
+            EC.presence_of_element_located(
+                (By.XPATH, '//h2[@class="textorangebig" and contains(text(), '
+                    '"К сожалению, по вашему запросу ничего не найдено")]')
+            )
         )
 
 
@@ -144,7 +150,9 @@ def test_search_and_rating(driver):
 
     with allure.step("Проверить наличие рейтинга на странице фильма"):
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".styles_ratingValue__P9R1x.styles_rootMSize__S2PLT"))
+            EC.presence_of_element_located(
+                (By.CSS_SELECTOR,
+                    ".styles_ratingValue__P9R1x.styles_rootMSize__S2PLT"))
         )
 
 
@@ -154,14 +162,16 @@ def test_search_and_rating(driver):
 @pytest.mark.ui
 def test_search_wrong_layout(driver):
     """
-    Негативный тест: поиск в английской раскладке, когда ожидается русское название.
+    Негативный тест: поиск в английской раскладке, когда
+    ожидается русское название.
     Проверяем, что в выпадающем списке появляется фильм 'Матрица' (ID 301).
     """
     from selenium.webdriver.common.by import By
     from selenium.webdriver.support.ui import WebDriverWait
     from selenium.webdriver.support import expected_conditions as EC
 
-    with allure.step("Открыть главную страницу и ввести запрос в английской раскладке"):
+    with allure.step("Открыть главную страницу "
+                     "и ввести запрос в английской раскладке"):
         driver.get("https://www.kinopoisk.ru")
         search_input = driver.find_element(By.NAME, "kp_query")
         search_input.send_keys("vanhbwf")  # "матрица" английскими буквами
